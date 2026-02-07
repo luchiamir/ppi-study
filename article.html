@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Effect of Prolonged PPI Treatment on Morbidity and Mortality in Hospitalized Patients over 75 Years of Age</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+  :root {
+    --serif: 'Noto Serif', 'Georgia', 'Times New Roman', serif;
+    --sans: 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+    --red: #AF1F24;
+    --red-dark: #8B1A1E;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --border: #d4d4d4;
+    --bg-gray: #f7f7f7;
+    --col-width: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: var(--serif);
+    color: var(--text);
+    background: #fff;
+    line-height: 1.75;
+  }
+
+  /* ── Journal header bar ── */
+  .journal-bar {
+    background: var(--red);
+    color: white;
+    padding: 10px 0;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--red-dark);
+  }
+  .journal-bar .inner {
+    max-width: var(--col-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .journal-bar .journal-name { font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; }
+
+  /* ── Article container ── */
+  .article {
+    max-width: var(--col-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Title block ── */
+  .title-block {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-type {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  .title-block h1 {
+    font-family: var(--serif);
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .authors {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .affiliations {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* ── Abstract ── */
+  .abstract-box {
+    background: var(--bg-gray);
+    border-left: 4px solid var(--red);
+    padding: 28px 28px 24px;
+    margin: 32px 0;
+  }
+  .abstract-box h2 {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  .abstract-box p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .abstract-box p:last-child { margin-bottom: 0; }
+  .abstract-box strong { font-weight: 700; }
+  .kw {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .kw b { font-weight: 700; color: var(--text); }
+
+  /* ── Section headings ── */
+  .article h2 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--red);
+    margin: 40px 0 16px;
+    padding-top: 24px;
+    border-top: 2px solid var(--red);
+  }
+  .article h3 {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 10px;
+  }
+
+  /* ── Body text ── */
+  .article p {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .article p.first-para::first-letter {
+    font-size: 3.2rem;
+    float: left;
+    line-height: 0.8;
+    margin: 4px 8px 0 0;
+    font-weight: 700;
+    color: var(--red);
+  }
+  sup { font-size: 0.7em; }
+  em { font-style: italic; }
+
+  /* ── Lists ── */
+  .article ul, .article ol {
+    margin: 0 0 14px 24px;
+    font-size: 0.95rem;
+  }
+  .article li { margin-bottom: 4px; }
+
+  /* ── Tables ── */
+  .table-wrap {
+    margin: 28px 0;
+    overflow-x: auto;
+  }
+  .table-wrap .table-title {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  thead th {
+    background: var(--bg-gray);
+    border-top: 2px solid var(--text);
+    border-bottom: 1px solid var(--text);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: 2px solid var(--text); }
+  .table-note {
+    font-family: var(--sans);
+    font-size: 0.73rem;
+    color: #888;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  td.bold { font-weight: 700; }
+  td.sig { font-weight: 600; }
+
+  /* ── Figures ── */
+  .figure-block {
+    margin: 32px 0;
+    text-align: center;
+  }
+  .figure-block img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e0e0e0;
+  }
+  .fig-cap {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-align: left;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .fig-cap b { color: var(--text); }
+
+  /* ── References ── */
+  .references {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-light);
+  }
+  .references ol { padding-left: 20px; }
+  .references li { margin-bottom: 6px; }
+
+  /* ── End matter ── */
+  .end-matter {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: #888;
+    line-height: 1.6;
+  }
+  .end-matter h4 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+    margin: 20px 0 6px;
+  }
+  .end-matter h4:first-child { margin-top: 0; }
+
+  /* ── Abbreviations ── */
+  .abbrev-table {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    columns: 2;
+    column-gap: 32px;
+    margin: 8px 0 20px;
+  }
+  .abbrev-table .row { break-inside: avoid; margin-bottom: 2px; }
+  .abbrev-table .ab { font-weight: 700; color: var(--text); }
+
+  /* ── Footer ── */
+  .journal-footer {
+    background: var(--bg-gray);
+    border-top: 3px solid var(--red);
+    padding: 24px;
+    margin-top: 60px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: #999;
+  }
+
+  /* ── Print ── */
+  @media print {
+    .journal-bar, .journal-footer { display: none; }
+    .article { max-width: 100%; padding: 0; }
+    body { font-size: 11pt; }
+    h2 { break-before: page; }
+    .figure-block { break-inside: avoid; }
+    .table-wrap { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .title-block h1 { font-size: 1.4rem; }
+    .article p.first-para::first-letter { font-size: 2.4rem; }
+    .abbrev-table { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Journal bar ── -->
+<div class="journal-bar">
+  <div class="inner">
+    <span class="journal-name">Original Research</span>
+    <span>Journal of Clinical Medicine &bull; MDPI</span>
+  </div>
+</div>
+
+<div class="article">
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TITLE BLOCK -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="title-block">
+  <div class="article-type">Original Article</div>
+  <h1>Effect of Prolonged Proton Pump Inhibitor Treatment on Morbidity and Mortality in Hospitalized Patients over 75&nbsp;Years of Age: A Large-Scale Retrospective Analysis</h1>
+  <div class="authors">
+    [Author names to be completed]
+  </div>
+  <div class="affiliations">
+    Department of Internal Medicine, Tel Aviv Sourasky Medical Center, Tel Aviv, Israel; Faculty of Medical and Health Sciences, Tel Aviv University, Tel Aviv, Israel.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- ABSTRACT -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="abstract-box">
+  <h2>Abstract</h2>
+  <p><strong>Background:</strong> Proton pump inhibitor (PPI) treatment guidelines for older adults recommend limiting therapy to 8 weeks in most clinical scenarios, yet chronic use without evidence-based indications is widespread. This study evaluated the association between chronic PPI use and hospital-acquired infections as well as short-term mortality in patients aged 75 years and older.</p>
+  <p><strong>Methods:</strong> Retrospective cohort analysis using real-world data from Tel Aviv Sourasky Medical Center (January 2006&ndash;December 2022). The study included 106,747 admissions of patients aged 75 years and older. Multivariable logistic regression and Cox proportional hazards models adjusted for age stratum, sex, CCI, aspirin use, and high-dose PPI. Propensity score matching (28,279 pairs) and inverse probability of treatment weighting addressed baseline imbalances.</p>
+  <p><strong>Results:</strong> The PPI-treated cohort (n&nbsp;=&nbsp;35,703, mean age 81.2&nbsp;&plusmn;&nbsp;5.2 years) demonstrated significantly higher rates of hospital-acquired pneumonia (28.8% vs. 14.5%; aOR 2.20, 95% CI 2.13&ndash;2.27, p&nbsp;&lt;&nbsp;0.001), <em>Clostridioides difficile</em> infection (CDI) (1.4% vs. 0.3%; aOR 3.47, 95% CI 2.94&ndash;4.09, p&nbsp;&lt;&nbsp;0.001), and fever (17.7% vs. 6.5%; aOR 2.47, 95% CI 2.37&ndash;2.58, p&nbsp;&lt;&nbsp;0.001). Paradoxically, PPI users demonstrated significantly reduced 30-day all-cause mortality (4.1% vs. 8.5%; adjusted HR 0.55, 95% CI 0.51&ndash;0.58, p&nbsp;&lt;&nbsp;0.001). In the propensity score&ndash;matched cohort, infection associations attenuated but persisted (pneumonia aOR 1.76; CDI aOR 2.37), while the mortality HR moved toward the null (HR 0.72, 95% CI 0.67&ndash;0.77).</p>
+  <p><strong>Conclusions:</strong> Chronic PPI therapy in hospitalized patients aged 75 years and older independently predicts hospital-acquired infections. The paradoxical inverse association with mortality likely reflects confounding by indication and healthy-user bias rather than a protective drug effect.</p>
+  <div class="kw"><b>Keywords:</b> proton pump inhibitors; elderly; hospital-acquired pneumonia; <em>Clostridioides difficile</em>; mortality; deprescribing; propensity score matching</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 1. BACKGROUND -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>1. Background</h2>
+
+<p class="first-para">The aging population, particularly those exceeding 75 years, faces an increasing burden of polypharmacy and potentially inappropriate medication use. Proton pump inhibitors (PPIs) rank among the most commonly prescribed drug classes worldwide, with particularly high prevalence in older adults.<sup>1</sup> Although PPIs are effective for short-term management of gastroesophageal reflux disease (GERD), peptic ulcer disease (PUD), and stress ulcer prophylaxis, current guidelines recommend limiting therapy to 4&ndash;8 weeks in most clinical scenarios.<sup>2</sup> Despite these recommendations, studies consistently demonstrate that 25&ndash;70% of PPI prescriptions in hospitalized patients lack a clear indication, and once initiated, PPI therapy is rarely discontinued.<sup>3,4</sup></p>
+
+<p>The 2019 American Geriatrics Society (AGS) Beers Criteria list PPIs among potentially inappropriate medications for older adults when used beyond 8 weeks without justification.<sup>2</sup> This concern arises from a growing body of observational evidence linking chronic PPI use to adverse outcomes including <em>Clostridioides difficile</em> infection (CDI), community- and hospital-acquired pneumonia, hypomagnesemia, vitamin B12 deficiency, bone fractures, and chronic kidney disease.<sup>5&ndash;7</sup></p>
+
+<p>PPI data regarding mortality in advanced age populations remain sparse and contradictory. A systematic review by Ben-Eltriki et al.<sup>8</sup> examining the PPI&ndash;mortality association concluded that evidence remains inconsistent across studies, with some cohort investigations reporting increased all-cause mortality with PPI use,<sup>9</sup> while others found no association or even decreased mortality after adjustment for confounders.<sup>10</sup> Patients older than 75 years are frequently underrepresented in pharmacoepidemiologic studies, and the complex interplay between PPI prescribing patterns and overall disease burden in this demographic complicates interpretation.</p>
+
+<p>The current investigation assessed the impact of chronic PPI treatment on hospital-acquired infections (pneumonia and CDI) and short-term all-cause mortality (7 and 30 days) among hospitalized individuals aged 75 years and older without evidence-based indications for long-term PPI therapy.</p>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 2. METHODS -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>2. Methods</h2>
+
+<h3>2.1 Study Population</h3>
+
+<p>The Tel Aviv Sourasky Medical Center (TASMC) institutional review board approved this retrospective cohort study (IRB approval TLV-XXXX-XX). Informed consent was waived per institutional policy for anonymized retrospective investigations. The investigation followed Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) reporting guidelines.<sup>11</sup></p>
+
+<p>The real-world data analysis included medical records from TASMC, a tertiary university-affiliated 1,500-bed acute care hospital, from January 2006 through December 2022. The study population encompassed all patients aged 75 years and older admitted to hospital departments. Patients with documented evidence-based indications for long-term PPI therapy (e.g., Barrett&rsquo;s esophagus, Zollinger&ndash;Ellison syndrome, chronic NSAID use with high gastrointestinal bleeding risk) were excluded. Each admission was treated as an independent observation.</p>
+
+<h3>2.2 Data Source and Variables</h3>
+
+<p>MDClone, a comprehensive de-identified big-data query tool enabling real-time querying of electronic health records, provided patient-level variables within defined timeframes. Collected data included: age; sex; chronic medications (PPI, aspirin); PPI dosage and formulation; mortality outcomes (7-day, 30-day, and 365-day all-cause mortality); blood test results (magnesium, vitamin B12, creatinine, hemoglobin, folic acid); infection outcomes; and Charlson Comorbidity Index (CCI) calculation.</p>
+
+<p>Chronic PPI use was defined as a daily PPI medication listed in the patient&rsquo;s medication reconciliation at hospital admission. PPI dose was categorized as follows:</p>
+<ul>
+  <li><strong>Low dose:</strong> lansoprazole 15&nbsp;mg, omeprazole 20&nbsp;mg, esomeprazole 20&nbsp;mg, or pantoprazole 40&nbsp;mg daily.</li>
+  <li><strong>High dose:</strong> lansoprazole 60&nbsp;mg, omeprazole 40&ndash;80&nbsp;mg, esomeprazole 40&ndash;80&nbsp;mg, or pantoprazole 80&nbsp;mg daily.</li>
+</ul>
+
+<h3>2.3 Study Endpoints</h3>
+
+<p><strong>Primary endpoints:</strong> Hospital-acquired pneumonia, defined by a pneumonia diagnosis code assigned during admission; <em>Clostridioides difficile</em> infection (CDI), defined by a positive fecal <em>C.&nbsp;difficile</em> toxin assay during admission; and all-cause mortality at 7 and 30 days after admission.</p>
+
+<p><strong>Secondary endpoint:</strong> Inpatient fever, defined as at least one documented temperature of 38.2&nbsp;&deg;C or higher during the admission.</p>
+
+<h3>2.4 Statistical Analysis</h3>
+
+<p>Categorical variables underwent chi-squared testing; continuous variables used Mann&ndash;Whitney U test or independent-samples t-test comparison, as appropriate. Multivariable logistic regression evaluated associations between chronic PPI use and infection outcomes (pneumonia, CDI, fever), adjusting for PPI use, high-dose PPI, age stratum (75&ndash;84 vs. &ge;85), CCI, and sex. Cox proportional hazards models assessed mortality outcomes, additionally adjusting for aspirin use.</p>
+
+<p>To address baseline imbalances between PPI users and non-users, propensity score matching (PSM) was performed. Propensity scores were estimated using logistic regression with the following covariates: age (continuous), sex, CCI, aspirin use, statin use, hypertension, and stroke history. PPI users were matched 1:1 to non-users using nearest-neighbor matching on the logit of the propensity score with a caliper width of 0.2 standard deviations. Balance was assessed using standardized mean differences (SMD), with |SMD|&nbsp;&lt;&nbsp;0.1 indicating adequate balance. Outcome analyses were repeated on the matched cohort with covariate adjustment (doubly robust estimation). For mortality models, cluster-robust standard errors accounted for matched-pair structure. Inverse probability of treatment weighting (IPTW) with stabilized weights (capped at the 1st and 99th percentiles) served as a sensitivity analysis preserving the full sample. E-values were computed to quantify the minimum strength of unmeasured confounding required to explain away observed associations.</p>
+
+<p>Subgroup analyses were performed by age stratum (75&ndash;84 vs. &ge;85) and PPI dose (high vs. low). All statistical tests were two-tailed with p&nbsp;&lt;&nbsp;0.05 indicating significance. Analyses were performed using SPSS version 27 and independently verified using Python 3.11.</p>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 3. RESULTS -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>3. Results</h2>
+
+<h3>3.1 Baseline Characteristics</h3>
+
+<p>Between January 2006 and December 2022, 106,747 admissions of patients aged 75 years and older were included. Of these, 35,703 (33.4%) were chronic PPI users and 71,044 (66.6%) were non-users (Table&nbsp;1).</p>
+
+<p>The non-PPI group (n&nbsp;=&nbsp;71,044, 53.8% female) had a mean age of 82.2&nbsp;&plusmn;&nbsp;5.6 years. The PPI-treated group (n&nbsp;=&nbsp;35,703, 55.3% female) had a mean age of 81.2&nbsp;&plusmn;&nbsp;5.2 years (p&nbsp;&lt;&nbsp;0.001). Aspirin use was substantially more common among PPI users (35.8% vs. 11.9%; p&nbsp;&lt;&nbsp;0.001). Among PPI users, 32,524 (91.1%) received low-dose and 3,179 (8.9%) received high-dose PPI.</p>
+
+<!-- Table 1 -->
+<div class="table-wrap">
+  <div class="table-title">Table 1. Characteristics of Cohort and Comparison of Groups With and Without Chronic PPI Treatment.</div>
+  <table>
+    <thead>
+      <tr><th>Characteristic</th><th>Without PPI (N = 71,044)</th><th>With PPI (N = 35,703)</th><th>p-value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Male, n (%)</td><td>32,804 (46.2)</td><td>15,958 (44.7)</td><td>&lt;0.001</td></tr>
+      <tr><td>Mean age, years &plusmn; SD</td><td>82.2 &plusmn; 5.6</td><td>81.2 &plusmn; 5.2</td><td>&lt;0.001</td></tr>
+      <tr><td>Age 75&ndash;84, n (%)</td><td>50,929 (71.7)</td><td>27,782 (77.8)</td><td>&lt;0.001</td></tr>
+      <tr><td>Age &ge;85, n (%)</td><td>20,115 (28.3)</td><td>7,921 (22.2)</td><td>&lt;0.001</td></tr>
+      <tr><td>CCI, median [IQR]</td><td>4 [3&ndash;5]</td><td>4 [4&ndash;5]</td><td>&lt;0.001</td></tr>
+      <tr><td>PUD, n (%)</td><td>283 (0.4)</td><td>479 (1.3)</td><td>&lt;0.001</td></tr>
+      <tr><td>Aspirin use, n (%)</td><td>8,432 (11.9)</td><td>12,799 (35.8)</td><td>&lt;0.001</td></tr>
+      <tr><td>PPI &mdash; Low dose, n (%)</td><td>&mdash;</td><td>32,524 (91.1)</td><td></td></tr>
+      <tr><td>PPI &mdash; High dose, n (%)</td><td>&mdash;</td><td>3,179 (8.9)</td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="table-note">CCI = Charlson Comorbidity Index; IQR = interquartile range; PUD = peptic ulcer disease.</div>
+</div>
+
+<h3>3.2 Hospital-Acquired Infections</h3>
+
+<p>Hospital-acquired pneumonia occurred in 10,297 PPI users (28.8%) compared with 10,318 non-users (14.5%; p&nbsp;&lt;&nbsp;0.001). CDI was diagnosed in 489 PPI users (1.4%) versus 223 non-users (0.3%; p&nbsp;&lt;&nbsp;0.001). Fever was documented in 6,316 PPI users (17.7%) versus 4,646 non-users (6.5%; p&nbsp;&lt;&nbsp;0.001).</p>
+
+<p>After multivariable adjustment (Table&nbsp;3), PPI use remained independently associated with pneumonia (aOR 2.20, 95% CI 2.13&ndash;2.27, p&nbsp;&lt;&nbsp;0.001), CDI (aOR 3.47, 95% CI 2.94&ndash;4.09, p&nbsp;&lt;&nbsp;0.001), and fever (aOR 2.47, 95% CI 2.37&ndash;2.58, p&nbsp;&lt;&nbsp;0.001). High-dose PPI was significantly associated with CDI (aOR 1.55, 95% CI 1.19&ndash;2.02, p&nbsp;=&nbsp;0.001) and fever (aOR 1.29, 95% CI 1.18&ndash;1.41, p&nbsp;&lt;&nbsp;0.001) but not with pneumonia (aOR 0.96, 95% CI 0.88&ndash;1.04, p&nbsp;=&nbsp;0.32).</p>
+
+<!-- Table 3 -->
+<div class="table-wrap">
+  <div class="table-title">Table 3. Adjusted Logistic Regression: Risk Factors for Hospital-Acquired Infections.</div>
+  <table>
+    <thead>
+      <tr><th>Covariate</th><th>CDI aOR (95% CI)</th><th>Pneumonia aOR (95% CI)</th><th>Fever aOR (95% CI)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="bold">PPI use</td><td class="sig">3.47 (2.94&ndash;4.09)*</td><td class="sig">2.20 (2.13&ndash;2.27)*</td><td class="sig">2.47 (2.37&ndash;2.58)*</td></tr>
+      <tr><td>High-dose PPI</td><td class="sig">1.55 (1.19&ndash;2.02)&dagger;</td><td>0.96 (0.88&ndash;1.04)</td><td class="sig">1.29 (1.18&ndash;1.41)*</td></tr>
+      <tr><td>Age 75&ndash;84</td><td>1.13 (0.94&ndash;1.35)</td><td class="sig">0.69 (0.66&ndash;0.71)*</td><td class="sig">1.13 (1.07&ndash;1.19)*</td></tr>
+      <tr><td>CCI (per point)</td><td class="sig">1.10 (1.05&ndash;1.15)*</td><td class="sig">1.09 (1.08&ndash;1.10)*</td><td class="sig">1.09 (1.07&ndash;1.10)*</td></tr>
+      <tr><td>Male sex</td><td class="sig">0.85 (0.73&ndash;0.99)&Dagger;</td><td class="sig">1.14 (1.10&ndash;1.18)*</td><td class="sig">1.23 (1.18&ndash;1.28)*</td></tr>
+    </tbody>
+  </table>
+  <div class="table-note">*p&lt;0.001; &dagger;p=0.001; &Dagger;p&lt;0.05. N=96,446 complete cases. Model does not include aspirin.</div>
+</div>
+
+<h3>3.3 Length of Stay and Mortality</h3>
+
+<p>Median length of stay (LOS) was modestly longer in PPI users (4.04 days [IQR 2.0&ndash;8.4]) compared with non-users (3.96 days [IQR 1.9&ndash;8.1]). Seven-day mortality was 522 (1.5%) in PPI users versus 2,906 (4.1%) in non-users (p&nbsp;&lt;&nbsp;0.001). Thirty-day mortality was 1,466 (4.1%) in PPI users versus 6,042 (8.5%) in non-users (p&nbsp;&lt;&nbsp;0.001).</p>
+
+<h3>3.4 Impact of PPI Use on All-Cause Mortality</h3>
+
+<p>In the adjusted Cox model for 30-day mortality, PPI use was associated with significantly lower mortality risk (adjusted HR 0.55, 95% CI 0.51&ndash;0.58, p&nbsp;&lt;&nbsp;0.001). Similar results were observed for 7-day mortality (adjusted HR 0.43, 95% CI 0.39&ndash;0.47, p&nbsp;&lt;&nbsp;0.001) (Table&nbsp;5). Aspirin use demonstrated a comparable protective association (adjusted HR 0.53, 95% CI 0.49&ndash;0.58, p&nbsp;&lt;&nbsp;0.001).</p>
+
+<!-- Table 5 -->
+<div class="table-wrap">
+  <div class="table-title">Table 5. Cox Proportional Hazards Models for 7-Day and 30-Day Mortality.</div>
+  <table>
+    <thead>
+      <tr><th>Covariate</th><th>7-Day Mortality HR (95% CI)</th><th>30-Day Mortality HR (95% CI)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="bold">PPI use</td><td class="sig">0.43 (0.39&ndash;0.47)*</td><td class="sig">0.55 (0.51&ndash;0.58)*</td></tr>
+      <tr><td>High-dose PPI</td><td>0.78 (0.56&ndash;1.08)</td><td>1.00 (0.83&ndash;1.19)</td></tr>
+      <tr><td>Age &ge;85</td><td class="sig">2.64 (2.44&ndash;2.85)*</td><td class="sig">2.33 (2.22&ndash;2.46)*</td></tr>
+      <tr><td>CCI (per point)</td><td class="sig">1.24 (1.22&ndash;1.27)*</td><td class="sig">1.26 (1.25&ndash;1.28)*</td></tr>
+      <tr><td>Male sex</td><td>1.01 (0.94&ndash;1.09)</td><td>1.03 (0.98&ndash;1.09)</td></tr>
+      <tr><td class="bold">Aspirin use</td><td class="sig">0.52 (0.46&ndash;0.59)*</td><td class="sig">0.53 (0.49&ndash;0.58)*</td></tr>
+    </tbody>
+  </table>
+  <div class="table-note">*p&lt;0.001. N=96,446; 30-day events=6,221; 7-day events=2,793.</div>
+</div>
+
+<!-- Figure 1 -->
+<div class="figure-block">
+  <img src="Figure1_KM_30day.png" alt="Kaplan-Meier 30-day survival">
+  <div class="fig-cap"><b>Figure 1.</b> Kaplan&ndash;Meier 30-day survival curves comparing PPI-treated (n=35,703) versus non-PPI (n=71,044) groups. PPI users demonstrated significantly higher 30-day survival (95.9% vs. 91.5%, log-rank p&lt;0.001).</div>
+</div>
+
+<!-- Figure 2 -->
+<div class="figure-block">
+  <img src="Figure2_Forest_Infections.png" alt="Forest plot of adjusted ORs">
+  <div class="fig-cap"><b>Figure 2.</b> Forest plot of adjusted odds ratios for the association between chronic PPI use and hospital-acquired complications (pneumonia, CDI, fever). All associations remained significant after multivariable adjustment.</div>
+</div>
+
+<h3>3.5 Subgroup Analyses</h3>
+
+<p>After stratification by age, findings remained consistent across both strata. In patients aged 75&ndash;84 years, PPI use was associated with increased pneumonia (aOR 2.15, p&nbsp;&lt;&nbsp;0.001) and CDI (aOR 3.52, p&nbsp;&lt;&nbsp;0.001). In patients aged &ge;85 years, PPI use was similarly associated with pneumonia (aOR 2.31, p&nbsp;&lt;&nbsp;0.001) and CDI (aOR 3.38, p&nbsp;&lt;&nbsp;0.001). The inverse association with 30-day mortality was observed in both subgroups.</p>
+
+<h3>3.6 Propensity Score&ndash;Matched Analysis</h3>
+
+<p>All seven covariates in the propensity score model were significant predictors of PPI use (all p&nbsp;&lt;&nbsp;0.001). The strongest predictors were statin use (coefficient 1.14), aspirin use (0.73), and hypertension (0.65). Propensity scores ranged from 0.10 to 0.94, indicating adequate overlap.</p>
+
+<p>One-to-one nearest-neighbor matching within a caliper of 0.2 standard deviations of the logit propensity score yielded 28,279 matched pairs (56,558 patients). Approximately 20.7% of PPI users (7,369) could not be matched within the caliper. After matching, all covariates achieved excellent balance with |SMD|&nbsp;&lt;&nbsp;0.1 (Table&nbsp;6, Figure&nbsp;5). The most substantial reductions in imbalance were observed for statin use (SMD: 0.78&nbsp;&rarr;&nbsp;0.01), hypertension (0.55&nbsp;&rarr;&nbsp;&minus;0.05), and aspirin use (0.53&nbsp;&rarr;&nbsp;0.04).</p>
+
+<!-- Table 6 -->
+<div class="table-wrap">
+  <div class="table-title">Table 6. Covariate Balance Before and After Propensity Score Matching.</div>
+  <table>
+    <thead>
+      <tr><th>Covariate</th><th>SMD Before</th><th>SMD After</th><th>Reduction</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Statin use</td><td>0.785</td><td>0.008</td><td>99.0%</td></tr>
+      <tr><td>Hypertension</td><td>0.546</td><td>&minus;0.047</td><td>91.4%</td></tr>
+      <tr><td>Aspirin use</td><td>0.527</td><td>0.040</td><td>92.4%</td></tr>
+      <tr><td>Stroke history</td><td>0.283</td><td>0.005</td><td>98.2%</td></tr>
+      <tr><td>CCI</td><td>0.220</td><td>&minus;0.026</td><td>88.2%</td></tr>
+      <tr><td>Age (years)</td><td>&minus;0.148</td><td>&minus;0.009</td><td>93.9%</td></tr>
+      <tr><td>Male sex</td><td>&minus;0.033</td><td>0.003</td><td>90.9%</td></tr>
+    </tbody>
+  </table>
+  <div class="table-note">SMD = standardized mean difference. |SMD|&lt;0.1 indicates adequate balance. 28,279 matched pairs.</div>
+</div>
+
+<!-- Figure 5 -->
+<div class="figure-block">
+  <img src="Figure5_LovePlot.png" alt="Love plot">
+  <div class="fig-cap"><b>Figure 5.</b> Love plot showing absolute standardized mean differences for all propensity score covariates before (red) and after (blue) matching. Dashed line indicates SMD = 0.1 threshold.</div>
+</div>
+
+<!-- Figure 6 -->
+<div class="figure-block">
+  <img src="Figure6_PS_Distribution.png" alt="Propensity score distribution">
+  <div class="fig-cap"><b>Figure 6.</b> Propensity score distribution for PPI users and non-users before and after matching. Improved overlap after matching confirms adequate common support.</div>
+</div>
+
+<p>In doubly robust logistic regression on the matched cohort (Table&nbsp;7), PPI use remained independently associated with pneumonia (aOR 1.76, 95% CI 1.69&ndash;1.83, p&nbsp;&lt;&nbsp;0.001), CDI (aOR 2.37, 95% CI 1.95&ndash;2.89, p&nbsp;&lt;&nbsp;0.001), and fever (aOR 1.76, 95% CI 1.67&ndash;1.85, p&nbsp;&lt;&nbsp;0.001). High-dose PPI remained significantly associated with CDI (aOR 1.63, 95% CI 1.21&ndash;2.20, p&nbsp;=&nbsp;0.002) and fever (aOR 1.35, 95% CI 1.22&ndash;1.50, p&nbsp;&lt;&nbsp;0.001).</p>
+
+<p>In the matched Cox proportional hazards model with cluster-robust standard errors, PPI use remained associated with lower 30-day mortality (adjusted HR 0.72, 95% CI 0.67&ndash;0.77, p&nbsp;&lt;&nbsp;0.001) and 7-day mortality (adjusted HR 0.59, 95% CI 0.52&ndash;0.66, p&nbsp;&lt;&nbsp;0.001).</p>
+
+<!-- Table 7 -->
+<div class="table-wrap">
+  <div class="table-title">Table 7. Propensity Score&ndash;Matched Cohort: Adjusted Outcome Estimates.</div>
+  <table>
+    <thead>
+      <tr><th>Outcome</th><th>Method</th><th>PPI Estimate (95% CI)</th><th>p-value</th><th>Unmatched</th></tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="5" style="font-weight:700; background:var(--bg-gray); font-size:0.73rem; text-transform:uppercase; letter-spacing:0.5px;">Infections (doubly robust logistic regression)</td></tr>
+      <tr><td>Pneumonia</td><td>PSM aOR</td><td class="sig">1.76 (1.69&ndash;1.83)</td><td>&lt;0.001</td><td>2.20 (2.13&ndash;2.27)</td></tr>
+      <tr><td>CDI</td><td>PSM aOR</td><td class="sig">2.37 (1.95&ndash;2.89)</td><td>&lt;0.001</td><td>3.47 (2.94&ndash;4.09)</td></tr>
+      <tr><td>Fever</td><td>PSM aOR</td><td class="sig">1.76 (1.67&ndash;1.85)</td><td>&lt;0.001</td><td>2.47 (2.37&ndash;2.58)</td></tr>
+      <tr><td colspan="5" style="font-weight:700; background:var(--bg-gray); font-size:0.73rem; text-transform:uppercase; letter-spacing:0.5px;">Mortality (Cox PH, cluster-robust SE)</td></tr>
+      <tr><td>30-day mortality</td><td>PSM HR</td><td class="sig">0.72 (0.67&ndash;0.77)</td><td>&lt;0.001</td><td>0.55 (0.51&ndash;0.58)</td></tr>
+      <tr><td>7-day mortality</td><td>PSM HR</td><td class="sig">0.59 (0.52&ndash;0.66)</td><td>&lt;0.001</td><td>0.43 (0.39&ndash;0.47)</td></tr>
+      <tr><td colspan="5" style="font-weight:700; background:var(--bg-gray); font-size:0.73rem; text-transform:uppercase; letter-spacing:0.5px;">IPTW sensitivity (full sample)</td></tr>
+      <tr><td>Pneumonia</td><td>IPTW aOR</td><td class="sig">1.92 (1.86&ndash;1.98)</td><td>&lt;0.001</td><td>&mdash;</td></tr>
+      <tr><td>CDI</td><td>IPTW aOR</td><td class="sig">2.90 (2.48&ndash;3.39)</td><td>&lt;0.001</td><td>&mdash;</td></tr>
+      <tr><td>Fever</td><td>IPTW aOR</td><td class="sig">2.00 (1.92&ndash;2.09)</td><td>&lt;0.001</td><td>&mdash;</td></tr>
+      <tr><td>30-day mortality</td><td>IPTW HR</td><td class="sig">0.70 (0.65&ndash;0.75)</td><td>&lt;0.001</td><td>&mdash;</td></tr>
+      <tr><td>7-day mortality</td><td>IPTW HR</td><td class="sig">0.56 (0.50&ndash;0.63)</td><td>&lt;0.001</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+  <div class="table-note">PSM = propensity score matching; IPTW = inverse probability of treatment weighting. PSM: 28,279 pairs; IPTW: N=96,446.</div>
+</div>
+
+<!-- Figure 7 -->
+<div class="figure-block">
+  <img src="Figure7_KM_Matched.png" alt="KM matched cohort">
+  <div class="fig-cap"><b>Figure 7.</b> Kaplan&ndash;Meier 30-day survival curves in the propensity score&ndash;matched cohort (28,279 pairs). The survival difference narrowed compared to the unmatched cohort (Figure 1) but remained statistically significant (log-rank p&lt;0.001).</div>
+</div>
+
+<!-- Figure 8 -->
+<div class="figure-block">
+  <img src="Figure8_Forest_Matched.png" alt="Forest plot matched cohort">
+  <div class="fig-cap"><b>Figure 8.</b> Forest plot of adjusted odds ratios for PPI use and hospital-acquired infections in the propensity score&ndash;matched cohort. All associations remained significant after matching and doubly robust adjustment.</div>
+</div>
+
+<p>E-values quantifying vulnerability to unmeasured confounding were: pneumonia 2.92 (CI bound 2.77), CDI 4.18 (CI bound 3.32), fever 2.91 (CI bound 2.73), 30-day mortality 2.14 (CI bound 1.91), and 7-day mortality 2.79 (CI bound 2.39).</p>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 4. DISCUSSION -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>4. Discussion</h2>
+
+<p class="first-para">The current investigation evaluated the impact of chronic PPI therapy on hospital-acquired infections and short-term mortality in a large cohort of hospitalized individuals aged 75 years and older. The findings demonstrated consistent and independent associations between chronic PPI use and elevated risk of hospital-acquired pneumonia, CDI, and fever across all analyzed subgroups. Paradoxically, PPI-treated patients exhibited substantially lower 7-day and 30-day all-cause mortality despite higher infection rates and longer hospital stays.</p>
+
+<p>The finding that PPI use increases the risk of hospital-acquired pneumonia aligns with biological plausibility and prior literature. By raising gastric pH, PPIs promote bacterial overgrowth in the stomach and oropharynx, facilitating micro-aspiration of colonized gastric contents.<sup>12</sup> A meta-analysis by Eom et al. reported a pooled OR of 1.27 (95% CI 1.11&ndash;1.46) for pneumonia with PPI use,<sup>13</sup> though the current estimate (aOR 2.20) is substantially higher, likely reflecting the older age and greater frailty of the study population. The association between PPI use and CDI is similarly well established.<sup>14,15</sup> PPIs disrupt the normal intestinal microbiome by altering luminal pH, reducing colonization resistance against <em>C.&nbsp;difficile</em> spores. The adjusted OR of 3.47 reinforces this association and was further amplified by high-dose PPI use (aOR 1.55), suggesting a dose&ndash;response relationship.</p>
+
+<p>A paradoxical finding emerged: although hospital-acquired infections and LOS were substantially elevated in PPI-treated cohorts, all-cause mortality was significantly reduced (adjusted HR 0.55 at 30 days). This pattern aligns with similar paradoxes observed in other pharmacoepidemiologic studies of this population, including the companion statin analysis from this cohort.<sup>16</sup></p>
+
+<p>Potential explanations for this discrepancy include the following: First, <strong>selection bias and healthy-user effect.</strong> PPI prescriptions may be preferentially initiated and maintained in patients who are more functionally independent and engaged with the healthcare system. PPI users were younger (81.2 vs. 82.2 years) and more often in the 75&ndash;84 age stratum (77.8% vs. 71.7%), supporting this hypothesis. Second, <strong>confounding by aspirin co-prescription.</strong> The three-fold higher rate of aspirin use among PPI users (35.8% vs. 11.9%) suggests that many PPIs were prescribed for gastroprotection in patients receiving antiplatelet therapy. Aspirin use itself demonstrated a strong inverse association with mortality (adjusted HR 0.53), likely reflecting a cardiovascular prevention population with better baseline health status. Third, <strong>residual confounding.</strong> Unmeasured confounders such as functional status, frailty indices, polypharmacy burden, nutritional status, and goals-of-care status (e.g., do-not-resuscitate orders) were not available and could substantially influence the mortality association. Fourth, <strong>collider bias.</strong> Conditioning on hospitalization can introduce collider bias, as PPI users may have been admitted for less severe conditions on average.</p>
+
+<p>The consistency of the inverse mortality association with both aspirin and PPI&mdash;two medications more commonly prescribed to ambulatory, medically engaged older adults&mdash;strongly suggests systematic differences in baseline health profiles not fully captured by available confounders. The observed mortality benefit should not be interpreted as a protective drug effect.</p>
+
+<p>Propensity score matching, performed to address measured baseline imbalances, provided additional insight. After 1:1 matching on age, sex, CCI, aspirin, statin use, hypertension, and stroke history (28,279 pairs; all SMDs&nbsp;&lt;&nbsp;0.1), infection associations attenuated but remained highly significant: pneumonia aOR decreased from 2.20 to 1.76, CDI from 3.47 to 2.37, and fever from 2.47 to 1.76. The persistence of these associations after rigorous balancing strengthens the argument for a causal PPI&ndash;infection link, consistent with the biological plausibility of acid suppression promoting bacterial overgrowth. For mortality, the HR moved from 0.55 toward the null (HR 0.72 in the matched cohort), indicating that a substantial portion of the apparent mortality benefit was attributable to measurable confounding by indication. However, the persistence of a statistically significant protective association (HR 0.72, p&nbsp;&lt;&nbsp;0.001) even after PSM suggests that unmeasured confounders&mdash;particularly functional status, frailty, and goals-of-care designation&mdash;continue to bias the mortality estimate. The E-value of 2.14 for 30-day mortality indicates that an unmeasured confounder associated with both PPI use and mortality by a risk ratio of at least 2.14 could fully explain the residual association. IPTW sensitivity analysis, preserving the full sample, yielded concordant results (30-day mortality HR 0.70), reinforcing the robustness of these findings.</p>
+
+<p>Earlier research demonstrates mixed results regarding PPI effects on mortality in older adults. The OBSEPI study<sup>5</sup> found PPIs associated with longer hospital stays and more infections in multimorbid older patients, consistent with the current infection-related findings. A large US veterans cohort study by Xie et al.<sup>9</sup> demonstrated increased mortality risk with PPI use over long-term follow-up, though that investigation included younger patients and longer observation periods.</p>
+
+<h3>Strengths and Limitations</h3>
+
+<p>Strengths of this study include the large real-world cohort (&gt;106,000 admissions), the extended study period (16 years), comprehensive mortality data, and adjustment for key clinical variables including propensity score matching and IPTW sensitivity analysis.</p>
+
+<p>Limitations include the following: (1) Retrospective design introduces residual confounding and selection bias risks. Although multivariable regression and propensity score matching adjusted for key baseline variables, unmeasured confounding likely persists, as evidenced by the residual inverse mortality association even after PSM. (2) Important lifestyle and clinical factors (smoking, functional status, frailty, nutritional status, goals of care) were unavailable; E-value analysis suggests these unmeasured confounders would need relatively modest associations (risk ratio 2.1&ndash;2.8) with both PPI use and mortality to explain the residual findings. (3) The use of admission-listed PPI as the exposure definition does not capture PPI duration, adherence, or appropriateness of the original indication. (4) The analysis treats each admission independently, without accounting for clustering of multiple admissions within the same patient. (5) Single-center design may limit generalizability.</p>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 5. CONCLUSIONS -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>5. Conclusions</h2>
+
+<p>Study findings demonstrated that chronic PPI therapy in hospitalized patients aged 75 years and older without evidence-based indications independently predicts hospital-acquired pneumonia, CDI, and fever. The paradoxical inverse association with short-term mortality likely reflects confounding by indication and healthy-user bias. These findings reinforce guideline recommendations for periodic reassessment and deprescribing of PPIs in older adults.</p>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- END MATTER -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="end-matter">
+
+  <h4>Acknowledgments</h4>
+  <p>The authors thank Esther Eshkol, institutional medical and scientific copyeditor, for editorial assistance.</p>
+
+  <h4>Abbreviations</h4>
+  <div class="abbrev-table">
+    <div class="row"><span class="ab">aOR</span> &mdash; adjusted odds ratio</div>
+    <div class="row"><span class="ab">AGS</span> &mdash; American Geriatrics Society</div>
+    <div class="row"><span class="ab">CCI</span> &mdash; Charlson Comorbidity Index</div>
+    <div class="row"><span class="ab">CDI</span> &mdash; <em>Clostridioides difficile</em> infection</div>
+    <div class="row"><span class="ab">CI</span> &mdash; confidence interval</div>
+    <div class="row"><span class="ab">GERD</span> &mdash; gastroesophageal reflux disease</div>
+    <div class="row"><span class="ab">HR</span> &mdash; hazard ratio</div>
+    <div class="row"><span class="ab">IPTW</span> &mdash; inverse probability of treatment weighting</div>
+    <div class="row"><span class="ab">IQR</span> &mdash; interquartile range</div>
+    <div class="row"><span class="ab">IRB</span> &mdash; institutional review board</div>
+    <div class="row"><span class="ab">LOS</span> &mdash; length of stay</div>
+    <div class="row"><span class="ab">OR</span> &mdash; odds ratio</div>
+    <div class="row"><span class="ab">PPI</span> &mdash; proton pump inhibitor</div>
+    <div class="row"><span class="ab">PSM</span> &mdash; propensity score matching</div>
+    <div class="row"><span class="ab">PUD</span> &mdash; peptic ulcer disease</div>
+    <div class="row"><span class="ab">SMD</span> &mdash; standardized mean difference</div>
+    <div class="row"><span class="ab">STROBE</span> &mdash; Strengthening the Reporting of Observational Studies in Epidemiology</div>
+    <div class="row"><span class="ab">TASMC</span> &mdash; Tel Aviv Sourasky Medical Center</div>
+  </div>
+
+  <h4>Author Contributions</h4>
+  <p>[To be completed by co-authors.]</p>
+
+  <h4>Institutional Review Board Statement</h4>
+  <p>All study procedures adhered to institutional ethical standards and the 1964 Helsinki declaration. The TASMC Institutional Review Board approved the investigation (Ethical code: TLV-XXXX-XX).</p>
+
+  <h4>Informed Consent Statement</h4>
+  <p>The IRB waived informed consent per institutional policy for anonymized retrospective studies.</p>
+
+  <h4>Data Availability Statement</h4>
+  <p>Data underlying this article will be shared upon reasonable request to the corresponding author.</p>
+
+  <h4>Conflicts of Interest</h4>
+  <p>The authors declare no conflict of interest.</p>
+
+  <h4>Funding Statement</h4>
+  <p>This research received no specific grant from any funding agency in public, commercial, or not-for-profit sectors.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- REFERENCES -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2>References</h2>
+
+<div class="references">
+<ol>
+  <li>Strand DS, Kim D, Peura DA. 25 Years of Proton Pump Inhibitors: A Comprehensive Review. <em>Gut Liver.</em> 2017;11:27&ndash;37.</li>
+  <li>American Geriatrics Society. 2019 Updated AGS Beers Criteria for Potentially Inappropriate Medication Use in Older Adults. <em>J Am Geriatr Soc.</em> 2019;67:674&ndash;694.</li>
+  <li>Forgacs I, Loganayagam A. Overprescribing Proton Pump Inhibitors. <em>BMJ.</em> 2008;336:2&ndash;3.</li>
+  <li>Haastrup PF, Thompson W, Sondergaard J, Jarboel DE. Side Effects of Long-Term Proton Pump Inhibitor Use: A Review. <em>Basic Clin Pharmacol Toxicol.</em> 2018;123:114&ndash;121.</li>
+  <li>Aubert CE, Blum MR, Gastens V, et al. Prescribing, Deprescribing and Potential Adverse Effects of Proton Pump Inhibitors in Older Patients with Multimorbidity. <em>CMAJ Open.</em> 2023;11:E170&ndash;E178.</li>
+  <li>Maes ML, Fixen DR, Linnebur SA. Adverse Effects of Proton-Pump Inhibitor Use in Older Adults: A Review of the Evidence. <em>Ther Adv Drug Saf.</em> 2017;8:273&ndash;297.</li>
+  <li>Fossmark R, Martinsen TC, Waldum HL. Adverse Effects of Proton Pump Inhibitors&mdash;Evidence and Plausibility. <em>Int J Mol Sci.</em> 2019;20:5203.</li>
+  <li>Ben-Eltriki M, Green CJ, Maclure M, et al. Do Proton Pump Inhibitors Increase Mortality? A Systematic Review. <em>Pharmacol Res Perspect.</em> 2020;8:e00651.</li>
+  <li>Xie Y, Bowe B, Li T, et al. Risk of Death among Users of Proton Pump Inhibitors: A Longitudinal Observational Cohort Study. <em>BMJ Open.</em> 2017;7:e015735.</li>
+  <li>Maggio M, Corsonello A, Ceda GP, et al. Proton Pump Inhibitors and Risk of 1-Year Mortality and Rehospitalization in Older Patients. <em>JAMA Intern Med.</em> 2013;173:518&ndash;523.</li>
+  <li>Gharaibeh A, Koppikar S, Bonilla-Escobar FJ. STROBE in the International Journal of Medical Students. <em>Int J Med Stud.</em> 2014;2:36&ndash;37.</li>
+  <li>Herzig SJ, Howell MD, Ngo LH, Marcantonio ER. Acid-Suppressive Medication Use and the Risk for Hospital-Acquired Pneumonia. <em>JAMA.</em> 2009;301:2120&ndash;2128.</li>
+  <li>Eom CS, Jeon CY, Lim JW, et al. Use of Acid-Suppressive Drugs and Risk of Pneumonia: A Systematic Review and Meta-Analysis. <em>CMAJ.</em> 2011;183:310&ndash;319.</li>
+  <li>Tariq R, Singh S, Gupta A, Pardi DS, Khanna S. Association of Gastric Acid Suppression with Recurrent <em>Clostridium Difficile</em> Infection. <em>JAMA Intern Med.</em> 2017;177:784&ndash;791.</li>
+  <li>Kwok CS, Arthur AK, Anibueze CI, et al. Risk of <em>Clostridium Difficile</em> Infection with Acid Suppressing Drugs and Antibiotics: Meta-Analysis. <em>Am J Gastroenterol.</em> 2012;107:1011&ndash;1019.</li>
+  <li>Nachmias N, Matsri S, Sharary M, et al. Statin Treatment for Reducing Mortality Risk in Individuals over 75 Years of Age: A Large-Scale Retrospective Analysis. <em>J Clin Med.</em> 2025;14:5739.</li>
+</ol>
+</div>
+
+</div><!-- /article -->
+
+<!-- ── Journal footer ── -->
+<div class="journal-footer">
+  Tel Aviv Sourasky Medical Center &bull; N = 106,747 admissions &bull; 2006&ndash;2022 &bull;
+  Companion paper: Nachmias et al. <em>J Clin Med.</em> 2025;14:5739
+</div>
+
+</body>
+</html>

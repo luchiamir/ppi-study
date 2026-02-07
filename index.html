@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPI Study &mdash; Research Dashboard</title>
+<style>
+  :root {
+    --blue: #1565C0;
+    --blue-light: #E3F2FD;
+    --red: #C62828;
+    --red-light: #FFEBEE;
+    --green: #2E7D32;
+    --green-light: #E8F5E9;
+    --orange: #E65100;
+    --orange-light: #FFF3E0;
+    --gray: #37474F;
+    --gray-light: #ECEFF1;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --radius: 10px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, var(--blue) 0%, #0D47A1 100%);
+    color: white;
+    padding: 48px 24px 36px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.7rem; max-width: 900px; margin: 0 auto 12px; font-weight: 700; }
+  header p.sub { font-size: 0.95rem; opacity: 0.85; max-width: 700px; margin: 0 auto; }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  nav ul {
+    display: flex; list-style: none; max-width: 1100px;
+    margin: 0 auto; overflow-x: auto;
+  }
+  nav a {
+    display: block; padding: 14px 20px;
+    text-decoration: none; color: var(--gray);
+    font-size: 0.88rem; font-weight: 500;
+    white-space: nowrap; border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* ── Layout ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 40px 0; }
+  section + section { border-top: 1px solid #e8e8e8; }
+  h2 {
+    font-size: 1.35rem; color: var(--blue); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .icon { font-size: 1.4rem; }
+  h3 { font-size: 1.05rem; color: var(--gray); margin: 20px 0 12px; }
+
+  /* ── KPI Cards ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; margin-bottom: 28px;
+  }
+  .kpi {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-top: 4px solid var(--blue);
+  }
+  .kpi.red   { border-top-color: var(--red); }
+  .kpi.green { border-top-color: var(--green); }
+  .kpi.orange{ border-top-color: var(--orange); }
+  .kpi .value { font-size: 2rem; font-weight: 700; color: var(--gray); }
+  .kpi .label { font-size: 0.82rem; color: #78909C; margin-top: 4px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 20px;
+  }
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.88rem; margin: 8px 0;
+  }
+  thead th {
+    background: var(--blue);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #ECEFF1;
+  }
+  tbody tr:hover { background: var(--blue-light); }
+  tbody tr:nth-child(even) { background: #F5F7FA; }
+  tbody tr:nth-child(even):hover { background: var(--blue-light); }
+  .sig { color: var(--red); font-weight: 600; }
+  .ns  { color: #90A4AE; }
+  .note { font-size: 0.78rem; color: #90A4AE; margin-top: 8px; line-height: 1.5; }
+
+  /* ── Figures ── */
+  .fig-container {
+    text-align: center;
+    margin: 16px 0;
+  }
+  .fig-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  .fig-caption {
+    font-size: 0.82rem;
+    color: #78909C;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ── Highlight boxes ── */
+  .highlight {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .highlight.info    { background: var(--blue-light);  border-left: 4px solid var(--blue); }
+  .highlight.warning { background: var(--orange-light); border-left: 4px solid var(--orange); }
+  .highlight.danger  { background: var(--red-light);   border-left: 4px solid var(--red); }
+  .highlight.success { background: var(--green-light); border-left: 4px solid var(--green); }
+  .highlight strong  { display: block; margin-bottom: 4px; }
+
+  /* ── Paradox visual ── */
+  .paradox-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px; align-items: center;
+    margin: 20px 0;
+  }
+  .paradox-box {
+    padding: 20px; border-radius: var(--radius); text-align: center;
+  }
+  .paradox-box.up   { background: var(--red-light); border: 2px solid var(--red); }
+  .paradox-box.down  { background: var(--green-light); border: 2px solid var(--green); }
+  .paradox-arrow { font-size: 2rem; color: #B0BEC5; }
+  .paradox-box .big { font-size: 1.6rem; font-weight: 700; }
+  .paradox-box .lbl { font-size: 0.82rem; margin-top: 4px; }
+  @media (max-width: 600px) {
+    .paradox-grid { grid-template-columns: 1fr; }
+    .paradox-arrow { transform: rotate(90deg); }
+  }
+
+  /* ── OR bar chart ── */
+  .or-bar-chart { margin: 16px 0; }
+  .or-row {
+    display: flex; align-items: center; margin-bottom: 10px; gap: 12px;
+  }
+  .or-label { width: 100px; font-size: 0.85rem; font-weight: 600; text-align: right; }
+  .or-bar-wrap { flex: 1; position: relative; height: 32px; background: #ECEFF1; border-radius: 6px; overflow: visible; }
+  .or-bar {
+    height: 100%; border-radius: 6px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 10px; color: white; font-weight: 700; font-size: 0.85rem;
+    transition: width 0.8s ease;
+  }
+  .or-ref {
+    position: absolute; left: calc(100% / 4.5); top: -4px; bottom: -4px;
+    width: 2px; background: var(--red); z-index: 2;
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--gray);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.8rem;
+    margin-top: 40px;
+  }
+  footer a { color: rgba(255,255,255,0.9); }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header>
+  <h1>Effect of Prolonged PPI Treatment on Morbidity and Mortality in Hospitalized Patients over 75 Years of Age</h1>
+  <p class="sub">A Large-Scale Retrospective Analysis &mdash; Tel Aviv Sourasky Medical Center, 2006&ndash;2022</p>
+  <span class="badge">N = 106,747 admissions &bull; 16-year study period</span>
+</header>
+
+<!-- ════════════ NAV ════════════ -->
+<nav>
+  <ul>
+    <li><a href="#overview" class="active">Overview</a></li>
+    <li><a href="#demographics">Demographics</a></li>
+    <li><a href="#infections">Infections</a></li>
+    <li><a href="#mortality">Mortality</a></li>
+    <li><a href="#regression">Regression</a></li>
+    <li><a href="#figures">Figures</a></li>
+    <li><a href="#psm">PSM Analysis</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<!-- ════════════ OVERVIEW ════════════ -->
+<section id="overview">
+  <h2><span class="icon">&#x1F4CA;</span> Study Overview</h2>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="value">106,747</div>
+      <div class="label">Total Admissions</div>
+    </div>
+    <div class="kpi">
+      <div class="value">35,703</div>
+      <div class="label">PPI Users (33.4%)</div>
+    </div>
+    <div class="kpi orange">
+      <div class="value">81.9</div>
+      <div class="label">Mean Age (&plusmn; 5.5 yr)</div>
+    </div>
+    <div class="kpi">
+      <div class="value">54.3%</div>
+      <div class="label">Female</div>
+    </div>
+    <div class="kpi green">
+      <div class="value">96,446</div>
+      <div class="label">Complete Cases (Regression)</div>
+    </div>
+  </div>
+
+  <div class="highlight info">
+    <strong>Study Design</strong>
+    Retrospective cohort of all patients &ge;75 years admitted to TASMC (2006&ndash;2022). Chronic PPI use defined as listed daily PPI at admission. Patients with evidence-based indications for long-term PPI were excluded. Data extracted via MDClone platform.
+  </div>
+
+  <h3>The Paradox</h3>
+  <div class="paradox-grid">
+    <div class="paradox-box up">
+      <div class="big" style="color:var(--red);">&uarr; Infections</div>
+      <div class="lbl">Pneumonia 2.2x &bull; CDI 3.5x &bull; Fever 2.5x</div>
+    </div>
+    <div class="paradox-arrow">&#x21C6;</div>
+    <div class="paradox-box down">
+      <div class="big" style="color:var(--green);">&darr; Mortality</div>
+      <div class="lbl">7-day HR 0.43 &bull; 30-day HR 0.55</div>
+    </div>
+  </div>
+  <p style="text-align:center; font-size:0.88rem; color:#78909C;">PPI users have <strong>more</strong> infections but <strong>less</strong> short-term mortality &mdash; likely reflecting healthy-user bias and confounding by indication.</p>
+</section>
+
+<!-- ════════════ DEMOGRAPHICS ════════════ -->
+<section id="demographics">
+  <h2><span class="icon">&#x1F465;</span> Table 1: Baseline Characteristics</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Characteristic</th>
+          <th>Without PPI (N=71,044)</th>
+          <th>With PPI (N=35,703)</th>
+          <th>p-value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Male, n (%)</td><td>32,804 (46.2%)</td><td>15,958 (44.7%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>Mean Age (years &plusmn; SD)</td><td>82.2 &plusmn; 5.6</td><td>81.2 &plusmn; 5.2</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>Age 75&ndash;84, n (%)</td><td>50,929 (71.7%)</td><td>27,782 (77.8%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>Age &ge;85, n (%)</td><td>20,115 (28.3%)</td><td>7,921 (22.2%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>CCI, median [IQR]</td><td>4 [3&ndash;5]</td><td>4 [4&ndash;5]</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>PUD, n (%)</td><td>283 (0.4%)</td><td>479 (1.3%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>Aspirin use, n (%)</td><td>8,432 (11.9%)</td><td>12,799 (35.8%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>PPI &mdash; Low dose</td><td>&mdash;</td><td>32,524 (91.1%)</td><td></td></tr>
+        <tr><td>PPI &mdash; High dose</td><td>&mdash;</td><td>3,179 (8.9%)</td><td></td></tr>
+      </tbody>
+    </table>
+    <p class="note">CCI = Charlson Comorbidity Index; PUD = peptic ulcer disease. Low dose: lansoprazole 15 mg, omeprazole/esomeprazole 20 mg, pantoprazole 40 mg. High dose: lansoprazole 60 mg, omeprazole/esomeprazole 40&ndash;80 mg, pantoprazole 80 mg.</p>
+  </div>
+</section>
+
+<!-- ════════════ INFECTIONS ════════════ -->
+<section id="infections">
+  <h2><span class="icon">&#x1F9A0;</span> Table 2: Hospital-Acquired Infections</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Outcome</th><th>Without PPI (N=71,044)</th><th>With PPI (N=35,703)</th><th>p-value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hospital-acquired pneumonia</td><td>10,318 (14.5%)</td><td>10,297 (28.8%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td><em>C. difficile</em> infection</td><td>223 (0.3%)</td><td>489 (1.4%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>Fever &ge; 38.2 &deg;C</td><td>4,646 (6.5%)</td><td>6,316 (17.7%)</td><td class="sig">&lt;0.001</td></tr>
+      </tbody>
+    </table>
+    <p class="note">CDI = <em>Clostridioides difficile</em> infection (positive fecal toxin assay). Fever = &ge;1 documented temperature &ge;38.2 &deg;C during admission.</p>
+  </div>
+
+  <h3>Adjusted Odds Ratios for PPI Use</h3>
+  <div class="card">
+    <div class="or-bar-chart">
+      <div class="or-row">
+        <div class="or-label">CDI</div>
+        <div class="or-bar-wrap">
+          <div class="or-bar" style="width:77%; background: linear-gradient(90deg, #C62828, #E53935);">3.47</div>
+          <div class="or-ref" title="OR = 1.0 (null)"></div>
+        </div>
+      </div>
+      <div class="or-row">
+        <div class="or-label">Fever</div>
+        <div class="or-bar-wrap">
+          <div class="or-bar" style="width:55%; background: linear-gradient(90deg, #E65100, #FF6D00);">2.47</div>
+          <div class="or-ref"></div>
+        </div>
+      </div>
+      <div class="or-row">
+        <div class="or-label">Pneumonia</div>
+        <div class="or-bar-wrap">
+          <div class="or-bar" style="width:49%; background: linear-gradient(90deg, #F57F17, #FFB300);">2.20</div>
+          <div class="or-ref"></div>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="text-align:center;">Red line = null value (OR 1.0). All p &lt; 0.001. Adjusted for age stratum, sex, CCI, and high-dose PPI.</p>
+  </div>
+</section>
+
+<!-- ════════════ MORTALITY ════════════ -->
+<section id="mortality">
+  <h2><span class="icon">&#x2764;</span> Table 4: Length of Stay &amp; Mortality</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th></th><th>PPI Users</th><th>Non-PPI Users</th><th>p-value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>LOS, median [IQR]</td><td>4.04 [2.0&ndash;8.4]</td><td>3.96 [1.9&ndash;8.1]</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>7-day mortality, n (%)</td><td>522 (1.5%)</td><td>2,906 (4.1%)</td><td class="sig">&lt;0.001</td></tr>
+        <tr><td>30-day mortality, n (%)</td><td>1,466 (4.1%)</td><td>6,042 (8.5%)</td><td class="sig">&lt;0.001</td></tr>
+      </tbody>
+    </table>
+    <p class="note">LOS = length of stay; IQR = interquartile range.</p>
+  </div>
+
+  <div class="kpi-grid" style="margin-top:20px;">
+    <div class="kpi green">
+      <div class="value">1.5% <span style="font-size:0.7em;">vs</span> 4.1%</div>
+      <div class="label">7-Day Mortality (PPI vs non-PPI)</div>
+    </div>
+    <div class="kpi green">
+      <div class="value">4.1% <span style="font-size:0.7em;">vs</span> 8.5%</div>
+      <div class="label">30-Day Mortality (PPI vs non-PPI)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ REGRESSION ════════════ -->
+<section id="regression">
+  <h2><span class="icon">&#x1F4C8;</span> Multivariable Regression Models</h2>
+
+  <h3>Table 3: Logistic Regression &mdash; Infections</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Covariate</th><th>CDI aOR (95% CI)</th><th>Pneumonia aOR (95% CI)</th><th>Fever aOR (95% CI)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>PPI use</strong></td>
+          <td class="sig">3.47 (2.94&ndash;4.09)***</td>
+          <td class="sig">2.20 (2.13&ndash;2.27)***</td>
+          <td class="sig">2.47 (2.37&ndash;2.58)***</td>
+        </tr>
+        <tr>
+          <td>High-dose PPI</td>
+          <td class="sig">1.55 (1.19&ndash;2.02)**</td>
+          <td class="ns">0.96 (0.88&ndash;1.04)</td>
+          <td class="sig">1.29 (1.18&ndash;1.41)***</td>
+        </tr>
+        <tr>
+          <td>Age 75&ndash;84</td>
+          <td class="ns">1.13 (0.94&ndash;1.35)</td>
+          <td class="sig">0.69 (0.66&ndash;0.71)***</td>
+          <td class="sig">1.13 (1.07&ndash;1.19)***</td>
+        </tr>
+        <tr>
+          <td>CCI (per point)</td>
+          <td class="sig">1.10 (1.05&ndash;1.15)***</td>
+          <td class="sig">1.09 (1.08&ndash;1.10)***</td>
+          <td class="sig">1.09 (1.07&ndash;1.10)***</td>
+        </tr>
+        <tr>
+          <td>Male sex</td>
+          <td class="sig">0.85 (0.73&ndash;0.99)*</td>
+          <td class="sig">1.14 (1.10&ndash;1.18)***</td>
+          <td class="sig">1.23 (1.18&ndash;1.28)***</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">*p &lt; 0.05, **p = 0.001, ***p &lt; 0.001. N = 96,446 complete cases. Model does not include aspirin.</p>
+  </div>
+
+  <h3>Table 5: Cox Proportional Hazards &mdash; Mortality</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Covariate</th><th>7-Day HR (95% CI)</th><th>30-Day HR (95% CI)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>PPI use</strong></td>
+          <td style="color:var(--green); font-weight:700;">0.43 (0.39&ndash;0.47)***</td>
+          <td style="color:var(--green); font-weight:700;">0.55 (0.51&ndash;0.58)***</td>
+        </tr>
+        <tr>
+          <td>High-dose PPI</td>
+          <td class="ns">0.78 (0.56&ndash;1.08)</td>
+          <td class="ns">1.00 (0.83&ndash;1.19)</td>
+        </tr>
+        <tr>
+          <td>Age &ge;85</td>
+          <td class="sig">2.64 (2.44&ndash;2.85)***</td>
+          <td class="sig">2.33 (2.22&ndash;2.46)***</td>
+        </tr>
+        <tr>
+          <td>CCI (per point)</td>
+          <td class="sig">1.24 (1.22&ndash;1.27)***</td>
+          <td class="sig">1.26 (1.25&ndash;1.28)***</td>
+        </tr>
+        <tr>
+          <td>Male sex</td>
+          <td class="ns">1.01 (0.94&ndash;1.09)</td>
+          <td class="ns">1.03 (0.98&ndash;1.09)</td>
+        </tr>
+        <tr>
+          <td><strong>Aspirin use</strong></td>
+          <td style="color:var(--green); font-weight:700;">0.52 (0.46&ndash;0.59)***</td>
+          <td style="color:var(--green); font-weight:700;">0.53 (0.49&ndash;0.58)***</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">***p &lt; 0.001. N = 96,446; 30-day events = 6,221; 7-day events = 2,793. Green = protective (HR &lt; 1).</p>
+  </div>
+
+  <div class="highlight success">
+    <strong>Key Finding</strong>
+    Both PPI (HR 0.55) and aspirin (HR 0.53) show a nearly identical &ldquo;protective&rdquo; association with 30-day mortality. This symmetry strongly suggests confounding by healthy-user bias rather than a true pharmacological effect.
+  </div>
+</section>
+
+<!-- ════════════ FIGURES ════════════ -->
+<section id="figures">
+  <h2><span class="icon">&#x1F5BC;</span> Figures</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 1. Kaplan&ndash;Meier 30-Day Survival</h3>
+      <div class="fig-container">
+        <img src="Figure1_KM_30day.png" alt="Kaplan-Meier 30-day survival by PPI status" loading="lazy">
+      </div>
+      <p class="fig-caption">PPI users (blue) had significantly higher 30-day survival compared to non-users (red). Log-rank p &lt; 0.001.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 2. Forest Plot &mdash; Adjusted ORs</h3>
+      <div class="fig-container">
+        <img src="Figure2_Forest_Infections.png" alt="Forest plot of adjusted ORs for infections" loading="lazy">
+      </div>
+      <p class="fig-caption">Adjusted odds ratios for PPI use and hospital-acquired complications. All associations significant (p &lt; 0.001).</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 3. Outcome Rates Comparison</h3>
+      <div class="fig-container">
+        <img src="Figure3_Outcomes_BarChart.png" alt="Outcome rates bar chart" loading="lazy">
+      </div>
+      <p class="fig-caption">PPI users had higher infection rates but paradoxically lower mortality at both 7 and 30 days.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 4. Survival by PPI Dose</h3>
+      <div class="fig-container">
+        <img src="Figure4_KM_PPIDose.png" alt="KM survival by PPI dose" loading="lazy">
+      </div>
+      <p class="fig-caption">Among PPI users, high-dose and low-dose groups showed comparable 30-day survival.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PSM ANALYSIS ════════════ -->
+<section id="psm">
+  <h2><span class="icon">&#x2696;</span> Propensity Score Matching Analysis</h2>
+
+  <div class="highlight info">
+    <strong>Methodology</strong>
+    1:1 nearest-neighbor matching on logit(PS), caliper = 0.2 &times; SD. PS model: age, sex, CCI, aspirin, statin, hypertension, stroke. 28,279 matched pairs from 96,446 complete cases. All covariates balanced (|SMD| &lt; 0.1). IPTW sensitivity analysis on full sample.
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="value">28,279</div>
+      <div class="label">Matched Pairs</div>
+    </div>
+    <div class="kpi green">
+      <div class="value">&lt; 0.1</div>
+      <div class="label">All SMDs After Matching</div>
+    </div>
+    <div class="kpi orange">
+      <div class="value">7,369</div>
+      <div class="label">Unmatched PPI Users (20.7%)</div>
+    </div>
+    <div class="kpi">
+      <div class="value">0.193</div>
+      <div class="label">Caliper Width</div>
+    </div>
+  </div>
+
+  <h3>Table 6: Covariate Balance Before &amp; After Matching</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Covariate</th><th>SMD Before</th><th>SMD After</th><th>Reduction</th><th>Balanced?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Statin use</td><td class="sig">0.785</td><td>0.008</td><td>99.0%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>Hypertension</td><td class="sig">0.546</td><td>-0.047</td><td>91.4%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>Aspirin use</td><td class="sig">0.527</td><td>0.040</td><td>92.4%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>Stroke history</td><td class="sig">0.283</td><td>0.005</td><td>98.2%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>CCI</td><td class="sig">0.220</td><td>-0.026</td><td>88.2%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>Age (years)</td><td class="sig">-0.148</td><td>-0.009</td><td>93.9%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+        <tr><td>Male sex</td><td>-0.033</td><td>0.003</td><td>90.9%</td><td style="color:var(--green); font-weight:700;">&#10003;</td></tr>
+      </tbody>
+    </table>
+    <p class="note">SMD = standardized mean difference. |SMD| &lt; 0.1 indicates adequate balance. Sorted by |SMD before|.</p>
+  </div>
+
+  <h3>Table 7: Matched vs Unmatched Results Comparison</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Outcome</th><th>Unmatched (Full Cohort)</th><th>PSM (28,279 Pairs)</th><th>IPTW (Full Sample)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pneumonia aOR</strong></td>
+          <td class="sig">2.20 (2.13&ndash;2.27)</td>
+          <td class="sig">1.76 (1.69&ndash;1.83)</td>
+          <td class="sig">1.92 (1.86&ndash;1.98)</td>
+        </tr>
+        <tr>
+          <td><strong>CDI aOR</strong></td>
+          <td class="sig">3.47 (2.94&ndash;4.09)</td>
+          <td class="sig">2.37 (1.95&ndash;2.89)</td>
+          <td class="sig">2.90 (2.48&ndash;3.39)</td>
+        </tr>
+        <tr>
+          <td><strong>Fever aOR</strong></td>
+          <td class="sig">2.47 (2.37&ndash;2.58)</td>
+          <td class="sig">1.76 (1.67&ndash;1.85)</td>
+          <td class="sig">2.00 (1.92&ndash;2.09)</td>
+        </tr>
+        <tr>
+          <td><strong>30-day mortality HR</strong></td>
+          <td style="color:var(--green); font-weight:700;">0.55 (0.51&ndash;0.58)</td>
+          <td style="color:var(--green); font-weight:700;">0.72 (0.67&ndash;0.77)</td>
+          <td style="color:var(--green); font-weight:700;">0.70 (0.65&ndash;0.75)</td>
+        </tr>
+        <tr>
+          <td><strong>7-day mortality HR</strong></td>
+          <td style="color:var(--green); font-weight:700;">0.43 (0.39&ndash;0.47)</td>
+          <td style="color:var(--green); font-weight:700;">0.59 (0.52&ndash;0.66)</td>
+          <td style="color:var(--green); font-weight:700;">0.56 (0.50&ndash;0.63)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">All p &lt; 0.001. PSM uses doubly robust estimation (covariate-adjusted on matched pairs). IPTW uses stabilized weights capped at 1st/99th percentile. Green = protective (HR &lt; 1).</p>
+  </div>
+
+  <div class="highlight warning">
+    <strong>Key Interpretation</strong>
+    After PSM, infection ORs decreased by 20&ndash;32% but remained highly significant, strengthening the causal argument for PPI-infection risk. The 30-day mortality HR moved from 0.55 toward the null (0.72), confirming that ~50% of the apparent &ldquo;protection&rdquo; was attributable to measured confounding. The persistence of HR 0.72 suggests unmeasured confounders (functional status, frailty, goals of care) continue to bias the estimate.
+  </div>
+
+  <h3>E-Values for Unmeasured Confounding</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Outcome</th><th>PSM Estimate</th><th>E-Value (Point)</th><th>E-Value (CI Bound)</th><th>Interpretation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pneumonia</td><td>aOR 1.76</td><td>2.92</td><td>2.77</td><td>Moderately robust</td></tr>
+        <tr><td>CDI</td><td>aOR 2.37</td><td>4.18</td><td>3.32</td><td>Highly robust</td></tr>
+        <tr><td>Fever</td><td>aOR 1.76</td><td>2.91</td><td>2.73</td><td>Moderately robust</td></tr>
+        <tr><td>30-day mortality</td><td>HR 0.72</td><td>2.14</td><td>1.91</td><td>Potentially vulnerable</td></tr>
+        <tr><td>7-day mortality</td><td>HR 0.59</td><td>2.79</td><td>2.39</td><td>Moderately robust</td></tr>
+      </tbody>
+    </table>
+    <p class="note">E-value = minimum strength of association an unmeasured confounder would need with both PPI use and the outcome to explain away the observed result. Higher E-values indicate greater robustness to unmeasured confounding.</p>
+  </div>
+
+  <h3>PSM Figures</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 5. Love Plot &mdash; Covariate Balance</h3>
+      <div class="fig-container">
+        <img src="Figure5_LovePlot.png" alt="Love plot showing SMDs before and after matching" loading="lazy">
+      </div>
+      <p class="fig-caption">Red circles = before matching; blue squares = after matching. Dashed line = SMD 0.1 threshold. All covariates achieved excellent balance.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 6. Propensity Score Distribution</h3>
+      <div class="fig-container">
+        <img src="Figure6_PS_Distribution.png" alt="PS distribution before and after matching" loading="lazy">
+      </div>
+      <p class="fig-caption">Histograms show substantially improved overlap between PPI and non-PPI groups after matching.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 7. KM Survival &mdash; Matched Cohort</h3>
+      <div class="fig-container">
+        <img src="Figure7_KM_Matched.png" alt="Kaplan-Meier 30-day survival in matched cohort" loading="lazy">
+      </div>
+      <p class="fig-caption">30-day survival in the PSM cohort (28,279 pairs). Survival gap narrows compared to unmatched analysis (Figure 1).</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Figure 8. Forest Plot &mdash; Matched Cohort</h3>
+      <div class="fig-container">
+        <img src="Figure8_Forest_Matched.png" alt="Forest plot of infection ORs in matched cohort" loading="lazy">
+      </div>
+      <p class="fig-caption">Adjusted ORs for PPI use and infections after PSM. All associations remain significant (p &lt; 0.001).</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  PPI Retrospective Cohort Study &mdash; Tel Aviv Sourasky Medical Center &bull;
+  Data: PPI_SPSS_10_24.xlsx (106,747 &times; 108) &bull;
+  Analysis verified February 2026 &bull;
+  Companion paper: <a href="https://doi.org/10.3390/jcm14165739" target="_blank">Nachmias et al. JCM 2025;14:5739</a>
+</footer>
+
+<!-- Smooth scrolling + active nav -->
+<script>
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('section[id]');
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  document.querySelectorAll('nav a').forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
